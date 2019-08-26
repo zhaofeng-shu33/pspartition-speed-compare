@@ -150,7 +150,7 @@ if __name__ == '__main__':
     task_list = ['try', 'gaussian', 'two_level']
     parser = argparse.ArgumentParser()
     parser.add_argument('--node_size', type=int, default=100)
-    parser.add_argument('--method', default='all', choices=method_list, nargs='+')
+    parser.add_argument('--method', default=['all'], choices=method_list, nargs='+')
     parser.add_argument('--task', default='try', choices=task_list)
     parser.add_argument('--num_times', type=int, default=1)
     parser.add_argument('--multi_thread', default=False, nargs='?', const=True)
@@ -167,7 +167,7 @@ if __name__ == '__main__':
         exit(0)
     if(args.task == 'try'):
         dg = generate_gaussian(args.node_size)
-        if(args.method.count('all') >= 0):
+        if(args.method.count('all') > 0):
             method_inner_list = METHOD_LIST
         elif(type(args.method) is list):
             method_inner_list = args.method
