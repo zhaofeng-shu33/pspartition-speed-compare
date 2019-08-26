@@ -106,7 +106,8 @@ def algorithm_runner(method_name, digraph, average_times=1):
             ic.fit(digraph, use_psp_i=True)        
         end_time = time.time()
         running_time = end_time - start_time
-        logging.info('{0}, {1}/{2}, running time: {3}'.format(method_name, i + 1, average_times, running_time))        
+        logging.info('{0}, {1}/{2}, node_size: {3}; running time: {4}'.format(method_name, i + 1, 
+            average_times, len(digraph.nodes), running_time))
 
         total_times += running_time
         
