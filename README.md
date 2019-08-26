@@ -1,5 +1,8 @@
+We compare the running speed of 4 implementations for principal sequence of partition.
+
 Two types of graph are used: Gaussian and Two-Level graph.
 
+Average over 3 times on each datapoint.
 ![](gaussian.png)
 
 ## Multi-processing
