@@ -9,6 +9,7 @@ import pdb
 import matplotlib.pyplot as plt
 color_list = ['red', 'green', 'blue', 'green']
 marker_list = ['o', '+', 'x', 'o']
+linestyle_list = ['-','-', '-', '--']
 
 def plot_time(filename, plot_title=''):
     '''combine different algorithms
@@ -27,7 +28,8 @@ def plot_time(filename, plot_title=''):
     for k,v in alg_data.items():
         if(k == 'num_edge'):
             continue
-        plt.plot(x_data, v, label=k, linewidth=3, color=color_list[index], marker=marker_list[index], markersize=12)
+        plt.plot(x_data, v, label=k, linewidth=3, color=color_list[index],
+            marker=marker_list[index], markersize=12, linestyle=linestyle_list[index])
         index += 1
     plt.ylabel('time(s)', fontsize=18)
     plt.xlabel('node num', fontsize=18)

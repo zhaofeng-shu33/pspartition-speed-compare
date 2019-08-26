@@ -1,0 +1,1 @@
+Two types of graph are used: Gaussian and Two-Level graph.
