@@ -32,7 +32,7 @@ def generate_gaussian(num_node):
 def generate_and_run_gaussian(num_times):
     gaussian_dic = {}
     for i in GAUSSIAN_NODE_LIST:
-        dg = generate_gaussian(args.node_size)
+        dg = generate_gaussian(i)
         prop = {'num_edge': len(dg.edges)}
         for method in METHOD_LIST:
             prop[method] = algorithm_runner(method, dg, num_times)
