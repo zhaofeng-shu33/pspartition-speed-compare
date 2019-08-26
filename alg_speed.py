@@ -155,7 +155,11 @@ if __name__ == '__main__':
     parser.add_argument('--num_times', type=int, default=1)
     parser.add_argument('--multi_thread', default=False, nargs='?', const=True)
     parser.add_argument('--total_times', default=False, nargs='?', const=True, help='compute total running time of the main process')
+    parser.add_argument('--debug', default=False, nargs='?', const=True)
     args = parser.parse_args()
+    if(args.debug):
+        import pdb
+        pdb.set_trace()    
     if(args.total_times):
         start_time = time.time()
     if(args.node_size < 4):
