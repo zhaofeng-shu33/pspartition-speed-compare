@@ -1,4 +1,5 @@
-# for time comparison experiment, it can not be reproduced exactly because of different computing machines
+# for time comparison experiment, it can not be reproduced exactly because of
+# different computing machines
 # but we hope the general tendency can be reproduced.
 import os
 import time
@@ -19,16 +20,16 @@ time_str = datetime.now().strftime('%Y-%m-%d-')
 LOGGING_FILE = time_str + 'speed.log'
 logging.basicConfig(filename=os.path.join('build', LOGGING_FILE), level=logging.INFO, format='%(asctime)s %(message)s')
 
-def construct(scale = 4):
+def construct(scale=4):
     n = scale * scale
     k1 = scale # inner
     k2 = scale # outer
     z_in_1 = n - 2
     z_in_2 = k1 - 1
     z_out = 1
-    p_1 = z_in_1/(n-1)    
-    p_2 = z_in_2/(n*(k1-1))
-    p_o = z_out/(n*k1*(k2-1))
+    p_1 = z_in_1 / (n - 1)    
+    p_2 = z_in_2 / (n * (k1 - 1))
+    p_o = z_out / (n * k1 * (k2 - 1))
     G = nx.Graph()
     cnt = 0
     for t in range(k2):
@@ -41,7 +42,7 @@ def construct(scale = 4):
             if(j[0] <= i[0]):
                 continue
             if(i[1]['macro'] != j[1]['macro']):
-                if(random.random()<=p_o):
+                if(random.random() <= p_o):
                     G.add_edge(i[0], j[0])
             else:
                 if(i[1]['micro'] == j[1]['micro']):
@@ -61,7 +62,7 @@ def generate_gaussian(num_node):
     ms = affinity_matrix.shape[0]
     digraph = nx.DiGraph()
     for i in range(ms):
-        for j in range(i+1, ms):
+        for j in range(i + 1, ms):
             w = affinity_matrix[i,j]
             if(w > TOLERANCE):
                 digraph.add_edge(i,j,weight=w)
@@ -83,7 +84,7 @@ def write_json(python_dic, filename_prefix):
         st = json.dumps(python_dic, indent=4) # human readable
         f.write(st)
         
-def algorithm_runner(method_name, digraph, average_times = 1):
+def algorithm_runner(method_name, digraph, average_times=1):
     '''
         return the time used 
     '''
@@ -105,11 +106,11 @@ def algorithm_runner(method_name, digraph, average_times = 1):
             ic.fit(digraph, use_psp_i=True)        
         end_time = time.time()
         running_time = end_time - start_time
-        logging.info('{0}, {1}/{2}, running time: {3}'.format(method_name, i+1, average_times, running_time))        
+        logging.info('{0}, {1}/{2}, running time: {3}'.format(method_name, i + 1, average_times, running_time))        
 
         total_times += running_time
         
-    return total_times/average_times    
+    return total_times / average_times    
     
 if __name__ == '__main__':
     method_list = ['all'] + METHOD_LIST
@@ -137,5 +138,3 @@ if __name__ == '__main__':
             print(method, time_used)
     elif(args.task == 'gaussian'):
         generate_and_run_gaussian(args.num_times)
-       
-        
