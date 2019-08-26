@@ -1,5 +1,7 @@
 Two types of graph are used: Gaussian and Two-Level graph.
 
+![](gaussian.png)
+
 ## Multi-processing
 ```shell
 python alg_speed.py --num_times=2 --node_size=200 --method=dt --total_times --multi_thread
