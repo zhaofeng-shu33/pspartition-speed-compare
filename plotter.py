@@ -11,7 +11,7 @@ color_list = ['red', 'green', 'blue', 'green']
 marker_list = ['o', '+', 'x', 'o']
 linestyle_list = ['-','-', '-', '--']
 
-def plot_time(filename, format):
+def plot_time(filename, plot_name, format):
     '''combine different algorithms
     '''
     f = open(os.path.join('build', filename), 'r')
@@ -33,7 +33,11 @@ def plot_time(filename, format):
         index += 1
     plt.ylabel('time(s)', fontsize=18)
     plt.xlabel('node num', fontsize=18)
-    plt.title('Gaussian blob clustering', fontsize=18)
+    if plot_name == 'gaussian':
+        plot_title = 'Gaussian blob clustering'
+    else:
+        plot_title = 'Two level graph clustering'
+    plt.title(plot_title, fontsize=18)
     plt.legend(fontsize='x-large')
     plt.savefig(os.path.join('build', filename.replace('json', format)), bbox_inches='tight')
     plt.show()
@@ -43,9 +47,10 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     current_time_str = datetime.now().strftime('%Y-%m-%d')    
     parser.add_argument('--date', help='which date to load', default=current_time_str)
+    parser.add_argument('--type', default='gaussian', choices=['gaussian', 'two_level'])
     parser.add_argument('--format', default='eps', choices=['eps', 'png'])
     parser.add_argument('--debug', default=False, type=bool, nargs='?', const=True, help='whether to enter debug mode') 
     args = parser.parse_args()
     if(args.debug):
         pdb.set_trace()
-    plot_time(current_time_str + '-' + 'gaussian.json', args.format)    
+    plot_time(current_time_str + '-' + args.type + '.json', args.type, args.format)    
