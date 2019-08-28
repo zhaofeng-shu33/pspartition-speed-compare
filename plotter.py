@@ -11,7 +11,7 @@ color_list = ['red', 'green', 'blue', 'green']
 marker_list = ['o', '+', 'x', 'o']
 linestyle_list = ['-','-', '-', '--']
 
-def plot_time(filename, plot_name, format):
+def plot_time(filename, plot_name, format, omit_list):
     '''combine different algorithms
     '''
     f = open(os.path.join('build', filename), 'r')
@@ -26,7 +26,7 @@ def plot_time(filename, plot_name, format):
             alg_data[k].append(v)
     index = 0
     for k,v in alg_data.items():
-        if(k == 'num_edge'):
+        if(k == 'num_edge' or omit_list.count(k) > 0):
             continue
         plt.plot(x_data, v, label=k, linewidth=3, color=color_list[index],
             marker=marker_list[index], markersize=12, linestyle=linestyle_list[index])
@@ -50,7 +50,12 @@ if __name__ == '__main__':
     parser.add_argument('--type', default='gaussian', choices=['gaussian', 'two_level'])
     parser.add_argument('--format', default='eps', choices=['eps', 'png'])
     parser.add_argument('--debug', default=False, type=bool, nargs='?', const=True, help='whether to enter debug mode') 
+    parser.add_argument('--omit', default=None, nargs='+', choices=['pdt', 'psp_i', 'dt', 'pdt_r'])
     args = parser.parse_args()
     if(args.debug):
         pdb.set_trace()
-    plot_time(current_time_str + '-' + args.type + '.json', args.type, args.format)    
+    if args.omit is None:
+        omit_list = []
+    else:
+        omit_list = args.omit
+    plot_time(args.date + '-' + args.type + '.json', args.type, args.format, omit_list)    
