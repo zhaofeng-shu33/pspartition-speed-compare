@@ -4,7 +4,7 @@ Two types of graph are used: Gaussian and Two-Level graph.
 
 Average over 3 times on each datapoint.
 ![](gaussian.png)
-
+![](two_level.png)
 ## Multi-processing
 ```shell
 python alg_speed.py --num_times=2 --node_size=200 --method=dt --total_times --multi_thread
