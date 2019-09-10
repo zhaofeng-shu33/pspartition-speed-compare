@@ -34,7 +34,7 @@ def plot_time(filename, plot_name, format, omit_list):
     plt.ylabel('time(s)', fontsize=18)
     plt.xlabel('node num', fontsize=18)
     if plot_name == 'gaussian':
-        plot_title = 'Gaussian blob clustering'
+        plot_title = 'Gaussian blob'
     else:
         plot_title = 'Two level graph clustering'
     plt.title(plot_title, fontsize=18)
