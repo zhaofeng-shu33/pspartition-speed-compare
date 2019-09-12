@@ -1,4 +1,4 @@
-# for time comparison experiment, it can not be reproduced exactly because of
+# for this time comparison experiment, it can not be reproduced exactly because of
 # different computing machines
 # but we hope the general tendency can be reproduced.
 import os
@@ -8,11 +8,14 @@ import argparse
 import random
 import json
 import logging
+
+import numpy as np
 import networkx as nx
 from sklearn import datasets
 from sklearn.metrics.pairwise import pairwise_kernels
 
-from info_cluster import InfoCluster
+from pspartition import PsPartition
+
 TOLERANCE = 1e-10
 GAUSSIAN_NODE_LIST = [100, 200, 300, 400, 500]
 TWO_LEVEL_CONFIG_LIST = [3, 4, 5, 6, 7]
@@ -20,6 +23,17 @@ METHOD_LIST = ['dt', 'pdt', 'psp_i', 'pdt_r']
 time_str = datetime.now().strftime('%Y-%m-%d-')
 LOGGING_FILE = time_str + 'speed.log'
 logging.basicConfig(filename=os.path.join('build', LOGGING_FILE), level=logging.INFO, format='%(asctime)s %(message)s')
+
+def construct_pspartition(X):
+    n_samples = nx.number_of_nodes(X)
+    sparse_mat = nx.adjacency_matrix(X)
+    affinity_matrix = np.asarray(sparse_mat.todense(), dtype=float)
+    sim_list = []
+    for s_i in range(n_samples):
+        for s_j in range(s_i+1, n_samples):
+            sim_list.append((s_i, s_j, affinity_matrix[s_i, s_j]))
+
+    return PsPartition(n_samples, sim_list)
 
 def construct_two_level_graph(scale=4):
     n = scale * scale
@@ -97,19 +111,9 @@ def write_json(python_dic, filename_prefix):
         f.write(st)
 
 def task(method_name, digraph, qu):
-    ic = InfoCluster(affinity='precomputed')
-    if(method_name == 'dt'):
-        start_time = time.time()    
-        ic.fit(digraph)
-    elif(method_name == 'pdt'):
-        start_time = time.time()        
-        ic.fit(digraph, use_pdt=True)
-    elif(method_name == 'pdt_r'):
-        start_time = time.time()        
-        ic.fit(digraph, use_pdt_r=True)
-    else:
-        start_time = time.time()        
-        ic.fit(digraph, use_psp_i=True)        
+    pspartition_instance = construct_pspartition(digraph)
+    start_time = time.time()    
+    pspartition_instance.run(method_name)
     end_time = time.time()
     running_time = end_time - start_time
     qu.put(running_time)
