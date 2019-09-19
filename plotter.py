@@ -11,6 +11,7 @@ import matplotlib.pyplot as plt
 color_list = ['red', 'green', 'blue', 'green']
 marker_list = ['o', '+', 'x', 'o']
 linestyle_list = ['-','-', '-', '--']
+method_translate = {'pdt_r': 'Kolmogorov', 'dt': 'Narayanan', 'psp_i': 'ours', 'pdt': 'ours'}
 
 def plot_gaussian_demo_data():
     color_list = ['#3FF711', 'r', 'g', 'm','y','k','c','#00FF00']
@@ -23,6 +24,7 @@ def plot_gaussian_demo_data():
             xx.append(part_center[i][0] + random.gauss(0,1))
             yy.append(part_center[i][1] + random.gauss(0,1))            
         plt.scatter(xx, yy, c=color_list[i], marker=marker_list[i])
+    plt.title('Four Gaussian Blobs Dataset', fontsize=18)
     plt.savefig(os.path.join('build', 'gaussian-blob-dataset.eps'))
 
 def plot_time(filename, plot_name, format, omit_list):
@@ -42,13 +44,13 @@ def plot_time(filename, plot_name, format, omit_list):
     for k,v in alg_data.items():
         if(k == 'num_edge' or omit_list.count(k) > 0):
             continue
-        plt.plot(x_data, v, label=k, linewidth=3, color=color_list[index],
+        plt.plot(x_data, v, label=method_translate[k], linewidth=3, color=color_list[index],
             marker=marker_list[index], markersize=12, linestyle=linestyle_list[index])
         index += 1
     plt.ylabel('Time(s)', fontsize=18)
     plt.xlabel('N(nodes)', fontsize=18)
     if plot_name == 'gaussian':
-        plot_title = 'Gaussian blob dataset'
+        plot_title = 'Time complexity comparison'
         plt.yscale('log')
     else:
         plot_title = 'Two level graph clustering'
