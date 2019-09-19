@@ -151,9 +151,10 @@ def algorithm_runner(method_name, digraph, average_times=1, multi_thread=False):
     
 if __name__ == '__main__':
     method_list = ['all'] + METHOD_LIST
-    task_list = ['try', 'gaussian', 'two_level']
+    task_list = ['try', 'gaussian', 'two_level', 'two-level-try']
     parser = argparse.ArgumentParser()
     parser.add_argument('--node_size', type=int, default=100)
+    parser.add_argument('--level_num', type=int, default=4)
     parser.add_argument('--method', default=['all'], choices=method_list, nargs='+')
     parser.add_argument('--task', default='try', choices=task_list)
     parser.add_argument('--num_times', type=int, default=1)
@@ -169,8 +170,11 @@ if __name__ == '__main__':
     if(args.node_size < 4):
         print('size should be at least 4')
         exit(0)
-    if(args.task == 'try'):
-        dg = generate_gaussian(args.node_size)
+    if args.task == 'try' or args.task == 'two-level-try':
+        if args.task == 'try':
+            dg = generate_gaussian(args.node_size)
+        else:
+            dg = construct_two_level_graph(args.level_num)
         if(args.method.count('all') > 0):
             method_inner_list = METHOD_LIST
         elif(type(args.method) is list):
