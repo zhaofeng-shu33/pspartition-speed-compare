@@ -17,7 +17,7 @@ from sklearn.metrics.pairwise import pairwise_kernels
 from pspartition import PsPartition
 
 TOLERANCE = 1e-10
-GAUSSIAN_NODE_LIST = [100, 200, 300, 400, 500]
+GAUSSIAN_NODE_LIST = [100, 200, 300, 400, 500, 600, 700, 800]
 TWO_LEVEL_CONFIG_LIST = [3, 4, 5, 6, 7]
 METHOD_LIST = ['dt', 'pdt', 'psp_i', 'pdt_r']
 time_str = datetime.now().strftime('%Y-%m-%d-')
@@ -34,6 +34,18 @@ def construct_pspartition(X):
             sim_list.append((s_i, s_j, affinity_matrix[s_i, s_j]))
 
     return PsPartition(n_samples, sim_list)
+
+def info_clustering_add_weight(G):
+    # G is modified within this function
+    # for each edge, the weight equals the number of triangles + beta(default to 1)    
+    beta = 1
+    for e in G.edges():
+        i, j = e
+        G[i][j]['weight'] = beta
+        for n in G.nodes():
+            if(G[i].get(n) is not None and G[j].get(n) is not None):
+                G[i][j]['weight'] += 1
+        G[i][j]['weight'] = G[i][j]['weight']
 
 def construct_two_level_graph(scale=4):
     n = scale * scale
@@ -66,6 +78,7 @@ def construct_two_level_graph(scale=4):
                 else:
                     if(random.random() <= p_2):
                         G.add_edge(i[0], j[0])
+    info_clustering_add_weight(G)
     return G 
     
 def generate_gaussian(num_node):
