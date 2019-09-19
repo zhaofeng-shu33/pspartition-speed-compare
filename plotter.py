@@ -31,10 +31,11 @@ def plot_time(filename, plot_name, format, omit_list):
         plt.plot(x_data, v, label=k, linewidth=3, color=color_list[index],
             marker=marker_list[index], markersize=12, linestyle=linestyle_list[index])
         index += 1
-    plt.ylabel('time(s)', fontsize=18)
-    plt.xlabel('node num', fontsize=18)
+    plt.ylabel('Time(s)', fontsize=18)
+    plt.xlabel('N(nodes)', fontsize=18)
     if plot_name == 'gaussian':
-        plot_title = 'Gaussian blob'
+        plot_title = 'Gaussian blob dataset'
+        plt.yscale('log')
     else:
         plot_title = 'Two level graph clustering'
     plt.title(plot_title, fontsize=18)
