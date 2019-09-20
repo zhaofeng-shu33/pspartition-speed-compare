@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 color_list = ['red', 'green', 'blue', 'green']
 marker_list = ['o', '+', 'x', 'o']
 linestyle_list = ['-','-', '-', '--']
-
+mapping = {'pdt': 'ours', 'dt': 'Nagano', 'pdt_r': 'Campello', 'psp_i': 'Ours'}
 def plot_time(filename, plot_name, format, omit_list):
     '''combine different algorithms
     '''
@@ -28,15 +28,16 @@ def plot_time(filename, plot_name, format, omit_list):
     for k,v in alg_data.items():
         if(k == 'num_edge' or omit_list.count(k) > 0):
             continue
-        plt.plot(x_data, v, label=k, linewidth=3, color=color_list[index],
+        plt.plot(x_data, v, label=mapping[k], linewidth=3, color=color_list[index],
             marker=marker_list[index], markersize=12, linestyle=linestyle_list[index])
         index += 1
     plt.ylabel('time(s)', fontsize=18)
     plt.xlabel('node num', fontsize=18)
     if plot_name == 'gaussian':
-        plot_title = 'Gaussian blob'
+        plot_title = 'Gaussian blob dataset'
     else:
-        plot_title = 'Two level graph clustering'
+        plot_title = 'Two level graph dataset'
+    plt.yscale('log')
     plt.title(plot_title, fontsize=18)
     plt.legend(fontsize='x-large')
     plt.savefig(os.path.join('build', filename.replace('json', format)), bbox_inches='tight')
