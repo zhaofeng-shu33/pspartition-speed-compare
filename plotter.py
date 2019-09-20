@@ -4,13 +4,29 @@ import os
 from datetime import datetime
 import json
 import argparse
+import random
 import pdb
 
 import matplotlib.pyplot as plt
 color_list = ['red', 'green', 'blue', 'green']
 marker_list = ['o', '+', 'x', 'o']
 linestyle_list = ['-','-', '-', '--']
-mapping = {'pdt': 'ours', 'dt': 'Nagano', 'pdt_r': 'Campello', 'psp_i': 'Ours'}
+method_translate = {'pdt_r': 'Kolmogorov', 'dt': 'Narayanan', 'psp_i': 'ours', 'pdt': 'ours'}
+
+def plot_gaussian_demo_data():
+    color_list = ['#3FF711', 'r', 'g', 'm','y','k','c','#00FF00']
+    marker_list = ['o', 'v', 's', '*', '+', 'x', 'D', '1']
+    part_center = [[3,3],[3,-3],[-3,-3],[-3,3]]
+    for i in range(4):
+        xx = []
+        yy = []
+        for j in range(25):
+            xx.append(part_center[i][0] + random.gauss(0,1))
+            yy.append(part_center[i][1] + random.gauss(0,1))            
+        plt.scatter(xx, yy, c=color_list[i], marker=marker_list[i])
+    plt.title('Four Gaussian Blobs Dataset', fontsize=18)
+    plt.savefig(os.path.join('build', 'gaussian-blob-dataset.eps'))
+
 def plot_time(filename, plot_name, format, omit_list):
     '''combine different algorithms
     '''
@@ -28,11 +44,11 @@ def plot_time(filename, plot_name, format, omit_list):
     for k,v in alg_data.items():
         if(k == 'num_edge' or omit_list.count(k) > 0):
             continue
-        plt.plot(x_data, v, label=mapping[k], linewidth=3, color=color_list[index],
+        plt.plot(x_data, v, label=method_translate[k], linewidth=3, color=color_list[index],
             marker=marker_list[index], markersize=12, linestyle=linestyle_list[index])
         index += 1
-    plt.ylabel('time(s)', fontsize=18)
-    plt.xlabel('node num', fontsize=18)
+    plt.ylabel('Time(s)', fontsize=18)
+    plt.xlabel('N(nodes)', fontsize=18)
     if plot_name == 'gaussian':
         plot_title = 'Gaussian blob dataset'
     else:
@@ -50,6 +66,7 @@ if __name__ == '__main__':
     parser.add_argument('--date', help='which date to load', default=current_time_str)
     parser.add_argument('--type', default='gaussian', choices=['gaussian', 'two_level'])
     parser.add_argument('--format', default='eps', choices=['eps', 'png'])
+    parser.add_argument('--plot_demo', default=False, type=bool, nargs='?', const=True, help='whether to plot the gaussian demo data')    
     parser.add_argument('--debug', default=False, type=bool, nargs='?', const=True, help='whether to enter debug mode') 
     parser.add_argument('--omit', default=None, nargs='+', choices=['pdt', 'psp_i', 'dt', 'pdt_r'])
     args = parser.parse_args()
@@ -59,4 +76,7 @@ if __name__ == '__main__':
         omit_list = []
     else:
         omit_list = args.omit
-    plot_time(args.date + '-' + args.type + '.json', args.type, args.format, omit_list)    
+    if(args.plot_demo):
+        plot_gaussian_demo_data()
+    else:
+        plot_time(args.date + '-' + args.type + '.json', args.type, args.format, omit_list)    
