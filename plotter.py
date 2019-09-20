@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 color_list = ['red', 'green', 'blue', 'green']
 marker_list = ['o', '+', 'x', 'o']
 linestyle_list = ['-','-', '-', '--']
-method_translate = {'pdt_r': 'Kolmogorov', 'dt': 'Narayanan', 'psp_i': 'ours', 'pdt': 'ours'}
+method_translate = {'pdt_r': 'Kolmogorov', 'dt': 'Narayanan', 'psp_i': 'ours(psp_i)', 'pdt': 'ours(pdt)'}
 
 def plot_gaussian_demo_data():
     color_list = ['#3FF711', 'r', 'g', 'm','y','k','c','#00FF00']
