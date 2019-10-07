@@ -17,7 +17,7 @@ from sklearn.metrics.pairwise import pairwise_kernels
 from pspartition import PsPartition
 
 TOLERANCE = 1e-10
-GAUSSIAN_NODE_LIST = [100, 200, 300, 400, 500, 600, 700, 800]
+GAUSSIAN_NODE_LIST = [100, 200, 300, 400, 500]
 TWO_LEVEL_CONFIG_LIST = [3, 4, 5, 6, 7]
 METHOD_LIST = ['dt', 'pdt', 'psp_i', 'pdt_r']
 time_str = datetime.now().strftime('%Y-%m-%d-')
