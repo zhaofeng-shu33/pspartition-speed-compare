@@ -2,5 +2,6 @@ job1:
   tags:
     - self-hosted
   script:
+    - mkdir build
     - python3 -m pip install --user pspartition
     - python3 alg_speed.py --total_times --multi_thread --num_times 1 --task gaussian 
