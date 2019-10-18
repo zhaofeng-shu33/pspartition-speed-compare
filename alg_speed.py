@@ -31,6 +31,8 @@ def construct_pspartition(X):
     sim_list = []
     for s_i in range(n_samples):
         for s_j in range(s_i+1, n_samples):
+            if affinity_matrix[s_i, s_j] < 1e-10:
+                continue
             sim_list.append((s_i, s_j, affinity_matrix[s_i, s_j]))
 
     return PsPartition(n_samples, sim_list)
