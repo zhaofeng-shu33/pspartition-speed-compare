@@ -30,7 +30,7 @@ def construct_pspartition(X):
     for s_i, s_j, weight_dic in X.edges(data=True):
         ii = int(s_i)
         jj = int(s_j)
-        if ii < jj:
+        if ii < jj and weight_dic['weight'] > 1e-10:
             sim_list.append((ii, jj, weight_dic['weight']))
 
     return PsPartition(n_samples, sim_list)
