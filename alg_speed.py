@@ -26,14 +26,12 @@ logging.basicConfig(filename=os.path.join('build', LOGGING_FILE), level=logging.
 
 def construct_pspartition(X):
     n_samples = nx.number_of_nodes(X)
-    sparse_mat = nx.adjacency_matrix(X)
-    affinity_matrix = np.asarray(sparse_mat.todense(), dtype=float)
     sim_list = []
-    for s_i in range(n_samples):
-        for s_j in range(s_i+1, n_samples):
-            if affinity_matrix[s_i, s_j] < 1e-10:
-                continue
-            sim_list.append((s_i, s_j, affinity_matrix[s_i, s_j]))
+    for s_i, s_j, weight_dic in X.edges(data=True):
+        ii = int(s_i)
+        jj = int(s_j)
+        if ii < jj:
+            sim_list.append((ii, jj, weight_dic['weight']))
 
     return PsPartition(n_samples, sim_list)
 
