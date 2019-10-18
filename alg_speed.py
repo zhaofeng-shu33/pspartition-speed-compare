@@ -125,8 +125,11 @@ def write_json(python_dic, filename_prefix):
 
 def task(method_name, digraph, qu):
     pspartition_instance = construct_pspartition(digraph)
-    start_time = time.time()    
-    pspartition_instance.run(method_name)
+    start_time = time.time()
+    try:
+        pspartition_instance.run(method_name)
+    except Exception as e:
+        nx.write_gml(digraph, 'crash.gml')
     end_time = time.time()
     running_time = end_time - start_time
     qu.put(running_time)
