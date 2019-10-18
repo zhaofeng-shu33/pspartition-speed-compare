@@ -134,11 +134,12 @@ def task(method_name, digraph, qu):
     running_time = end_time - start_time
     qu.put(running_time)
             
-def algorithm_runner(method_name, digraph, average_times=1, multi_thread=False):
+def algorithm_runner(method_name, node_size, average_times=1, multi_thread=False):
     '''
         return the time used 
     '''   
     total_times = 0
+    
     if(multi_thread):
         from multiprocessing import Process, Queue
         process_list = []
@@ -157,6 +158,7 @@ def algorithm_runner(method_name, digraph, average_times=1, multi_thread=False):
         from queue import Queue
         q = Queue()
         for i in range(average_times):
+            digraph = generate_gaussian(node_size)
             task(method_name, digraph, q)
             running_time = q.get()
             total_times += running_time
@@ -199,7 +201,7 @@ if __name__ == '__main__':
             method_inner_list = [args.method]
         print('num of edge', len(dg.edges))
         for method in method_inner_list:
-            time_used = algorithm_runner(method, dg, args.num_times, args.multi_thread)
+            time_used = algorithm_runner(method, args.node_size, args.num_times, args.multi_thread)
             print(method, time_used)
     elif(args.task == 'gaussian'):
         generate_and_run_gaussian(args.num_times, args.multi_thread)
