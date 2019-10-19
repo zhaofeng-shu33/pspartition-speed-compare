@@ -1,10 +1,11 @@
 job1:
+  image: python:3.7
   tags:
     - self-hosted
   script:
+    - pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt
     - mkdir build
-    - python3 -m pip install --user pspartition
-    - python3 alg_speed.py --total_times --num_times 1 --task gaussian
-    - cat build/*.log 
+    - python -m pip install pspartition
+    - python alg_speed.py --total_times --num_times 1 --task gaussian
   only:
     - master

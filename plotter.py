@@ -8,6 +8,7 @@ import random
 import pdb
 
 import matplotlib.pyplot as plt
+
 color_list = ['red', 'green', 'blue', 'green']
 marker_list = ['o', '+', 'x', 'o']
 linestyle_list = ['-','-', '-', '--']

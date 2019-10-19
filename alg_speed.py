@@ -21,8 +21,19 @@ GAUSSIAN_NODE_LIST = [100, 200, 300, 400, 500]
 TWO_LEVEL_CONFIG_LIST = [3, 4, 5, 6, 7]
 METHOD_LIST = ['dt', 'pdt', 'psp_i', 'pdt_r']
 time_str = datetime.now().strftime('%Y-%m-%d-')
-LOGGING_FILE = time_str + 'speed.log'
-logging.basicConfig(filename=os.path.join('build', LOGGING_FILE), level=logging.INFO, format='%(asctime)s %(message)s')
+
+def set_up_log():
+    LOGGING_FILE = time_str + 'speed.log'
+    logFormatter = logging.Formatter('%(asctime)s %(message)s')
+    rootLogger = logging.getLogger()
+    fileHandler = logging.FileHandler(os.path.join('build', LOGGING_FILE))
+    fileHandler.setFormatter(logFormatter)
+    rootLogger.addHandler(fileHandler)
+
+    consoleHandler = logging.StreamHandler()
+    consoleHandler.setFormatter(logFormatter)
+    rootLogger.addHandler(consoleHandler)
+    rootLogger.setLevel(logging.INFO)
 
 def construct_pspartition(X):
     n_samples = nx.number_of_nodes(X)
@@ -178,6 +189,7 @@ if __name__ == '__main__':
     parser.add_argument('--total_times', default=False, nargs='?', const=True, help='compute total running time of the main process')
     parser.add_argument('--debug', default=False, nargs='?', const=True)
     args = parser.parse_args()
+    set_up_log()
     if(args.debug):
         import pdb
         pdb.set_trace()    
