@@ -7,8 +7,8 @@ job1:
     - mkdir build
     - python alg_speed.py --total_times --num_times 1 --task gaussian
     - python plotter.py --format svg --type gaussian
-    artifacts:
-        paths:
-          - build/*.svg   
+  artifacts:
+    paths:
+      - build/*.svg   
   only:
     - master
