@@ -5,7 +5,10 @@ job1:
   script:
     - pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt
     - mkdir build
-    - python -m pip install pspartition
     - python alg_speed.py --total_times --num_times 1 --task gaussian
+    - python plotter.py --format svg --type gaussian
+    artifacts:
+        paths:
+          - build/*.svg   
   only:
     - master

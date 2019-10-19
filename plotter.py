@@ -66,7 +66,7 @@ if __name__ == '__main__':
     current_time_str = datetime.now().strftime('%Y-%m-%d')    
     parser.add_argument('--date', help='which date to load', default=current_time_str)
     parser.add_argument('--type', default='gaussian', choices=['gaussian', 'two_level'])
-    parser.add_argument('--format', default='eps', choices=['eps', 'png'])
+    parser.add_argument('--format', default='eps', choices=['eps', 'png', 'svg'])
     parser.add_argument('--plot_demo', default=False, type=bool, nargs='?', const=True, help='whether to plot the gaussian demo data')    
     parser.add_argument('--debug', default=False, type=bool, nargs='?', const=True, help='whether to enter debug mode') 
     parser.add_argument('--omit', default=None, nargs='+', choices=['pdt', 'psp_i', 'dt', 'pdt_r'])
@@ -80,4 +80,10 @@ if __name__ == '__main__':
     if(args.plot_demo):
         plot_gaussian_demo_data()
     else:
-        plot_time(args.date + '-' + args.type + '.json', args.type, args.format, omit_list)    
+        file_name = args.date + '-' + args.type + '.json'
+        if not os.path.exists(file_name):
+            for i in os.listdir('./build'):
+                if i.find(args.type + '.json') > 0:
+                    file_name = i
+                    break            
+        plot_time(file_name, args.type, args.format, omit_list)    

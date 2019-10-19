@@ -1,3 +1,5 @@
+[![GitLab](https://gitlab.com/zhaofeng-shu33/pspartition-speed-compare/badges/master/pipeline.svg)](https://gitlab.com/zhaofeng-shu33/pspartition-speed-compare)
+
 We compare the running speed of 4 implementations for principal sequence of partition.
 
 n is the number of node and m is the number of edge for a graph.
