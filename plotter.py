@@ -28,7 +28,7 @@ def plot_gaussian_demo_data():
     plt.title('Four Gaussian Blobs Dataset', fontsize=18)
     plt.savefig(os.path.join('build', 'gaussian-blob-dataset.eps'))
 
-def plot_time(filename, plot_name, format, omit_list):
+def plot_time(filename, plot_name, img_format, omit_list):
     '''combine different algorithms
     '''
     f = open(os.path.join('build', filename), 'r')
@@ -57,8 +57,13 @@ def plot_time(filename, plot_name, format, omit_list):
     plt.yscale('log')
     plt.title(plot_title, fontsize=18)
     plt.legend(fontsize='x-large')
-    plt.savefig(os.path.join('build', filename.replace('json', format)), bbox_inches='tight')
+    img_path = os.path.join( 'build', filename.replace('json', img_format))
+    if img_format == 'png':
+        plt.savefig(img_path, bbox_inches='tight', transparent=True)
+    else:
+        plt.savefig(img_path, bbox_inches='tight')
     plt.show()
+
 
 
 if __name__ == '__main__':
