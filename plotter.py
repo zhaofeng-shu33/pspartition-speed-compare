@@ -10,7 +10,7 @@ import pdb
 import matplotlib.pyplot as plt
 
 color_list = ['red', 'green', 'blue', 'green']
-marker_list = ['o', '+', 'x', 'o']
+marker_list = ['o', 'P', '^', 'o']
 linestyle_list = ['-','-', '-', '--']
 method_translate = {'pdt_r': 'Kolmogorov', 'dt': 'Narayanan', 'psp_i': 'ours(HPSP)', 'pdt': 'ours(pdt)'}
 
