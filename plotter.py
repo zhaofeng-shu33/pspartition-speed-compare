@@ -51,7 +51,7 @@ def plot_time(filename, plot_name, img_format, omit_list):
     plt.ylabel('Time(s)', fontsize=18)
     plt.xlabel('N(nodes)', fontsize=18)
     if plot_name == 'gaussian':
-        plot_title = 'Gaussian-blob dataset'
+        plot_title = 'Gaussian-blobs dataset'
     else:
         plot_title = 'Two-level graph dataset'
     plt.yscale('log')
