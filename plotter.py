@@ -9,10 +9,10 @@ import pdb
 
 import matplotlib.pyplot as plt
 
-color_list = ['red', 'green', 'blue', 'green']
+color_list = ['green', 'red', 'blue', 'green']
 marker_list = ['o', 'P', '^', 'o']
 linestyle_list = ['-','-', '-', '--']
-method_translate = {'pdt_r': 'Kolmogorov', 'dt': 'Narayanan', 'psp_i': 'ours(HPSP)', 'pdt': 'ours(pdt)'}
+method_translate = {'pdt_r': '参数化最大流', 'dt': 'PSP', 'psp_i': 'HPSP', 'pdt': 'ours(pdt)'}
 
 def plot_gaussian_demo_data():
     color_list = ['#3FF711', 'r', 'g', 'm','y','k','c','#00FF00']
@@ -45,24 +45,26 @@ def plot_time(filename, plot_name, img_format, omit_list):
     for k,v in alg_data.items():
         if(k == 'num_edge' or omit_list.count(k) > 0):
             continue
+        print(x_data, v, method_translate[k])
         plt.plot(x_data, v, label=method_translate[k], linewidth=3, color=color_list[index],
             marker=marker_list[index], markersize=12, linestyle=linestyle_list[index])
         index += 1
-    plt.ylabel('Time(s)', fontsize=18)
-    plt.xlabel('N(nodes)', fontsize=18)
+    plt.ylabel('运行时间(秒)', fontsize=18, fontname='Songti SC')
+    plt.xlabel('N(节点个数)', fontsize=18, fontname='Songti SC')
     if plot_name == 'gaussian':
-        plot_title = 'Gaussian-blobs dataset'
+        plot_title = '高斯块x4'
     else:
-        plot_title = 'Two-level graph dataset'
+        plot_title = '两层随机块'
     plt.yscale('log')
-    plt.title(plot_title, fontsize=18)
-    plt.legend(fontsize='x-large')
+    # plt.title(plot_title, fontsize=18, fontname='Songti SC')
+    L = plt.legend(fontsize='x-large') #, framealpha=0.0)
+    plt.setp(L.texts, family='Songti SC')
     img_path = os.path.join( 'build', filename.replace('json', img_format))
-    if img_format == 'png':
+    if img_format == 'png' or img_format == 'svg':
         plt.savefig(img_path, bbox_inches='tight', transparent=True)
     else:
         plt.savefig(img_path, bbox_inches='tight')
-    plt.show()
+    # plt.show()
 
 
 
@@ -71,7 +73,7 @@ if __name__ == '__main__':
     current_time_str = datetime.now().strftime('%Y-%m-%d')    
     parser.add_argument('--date', help='which date to load', default=current_time_str)
     parser.add_argument('--type', default='gaussian', choices=['gaussian', 'two_level'])
-    parser.add_argument('--format', default='eps', choices=['eps', 'png', 'svg'])
+    parser.add_argument('--format', default='eps', choices=['pdf', 'png', 'svg'])
     parser.add_argument('--plot_demo', default=False, type=bool, nargs='?', const=True, help='whether to plot the gaussian demo data')    
     parser.add_argument('--debug', default=False, type=bool, nargs='?', const=True, help='whether to enter debug mode') 
     parser.add_argument('--omit', default=None, nargs='+', choices=['pdt', 'psp_i', 'dt', 'pdt_r'])
