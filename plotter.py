@@ -49,16 +49,18 @@ def plot_time(filename, plot_name, img_format, omit_list):
         plt.plot(x_data, v, label=method_translate[k], linewidth=3, color=color_list[index],
             marker=marker_list[index], markersize=12, linestyle=linestyle_list[index])
         index += 1
-    plt.ylabel('运行时间(秒)', fontsize=18, fontname='Songti SC')
-    plt.xlabel('N(节点个数)', fontsize=18, fontname='Songti SC')
+    plt.ylabel('运\n行\n时\n间\n(秒)', fontsize=18, fontname='SimSun', rotation=0)
+    plt.xlabel('N(节点个数)', fontsize=18, fontname='SimSun')
     if plot_name == 'gaussian':
         plot_title = '高斯块x4'
     else:
         plot_title = '两层随机块'
     plt.yscale('log')
-    # plt.title(plot_title, fontsize=18, fontname='Songti SC')
+    # plt.title(plot_title, fontsize=18, fontname='SimSun')
     L = plt.legend(fontsize='x-large') #, framealpha=0.0)
-    plt.setp(L.texts, family='Songti SC')
+    L.get_frame().set_alpha(None)
+    L.get_frame().set_facecolor((1, 1, 1, 0))    
+    plt.setp(L.texts, family='SimSun')
     img_path = os.path.join( 'build', filename.replace('json', img_format))
     if img_format == 'png' or img_format == 'svg':
         plt.savefig(img_path, bbox_inches='tight', transparent=True)
